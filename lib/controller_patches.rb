@@ -7,9 +7,18 @@
 require 'dispatcher'
 Dispatcher.to_prepare do
     # Example adding an instance variable to the frontpage controller
-    GeneralController.class_eval do
-        def mycontroller
-            @say_something = "Greetings friend"
+#    GeneralController.class_eval do
+#        def mycontroller
+#            @say_something = "Greetings friend"
+#        end
+#    end
+#:set_view_paths
+    ApplicationController.class_eval do
+        alias_method :rescue_action_in_public_original, :rescue_action_in_public
+        def rescue_action_in_public(exception)
+          set_view_paths 
+          rescue_action_in_public_original(exception)
         end
     end
+
 end
